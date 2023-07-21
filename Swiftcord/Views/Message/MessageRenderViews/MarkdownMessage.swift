@@ -33,50 +33,32 @@ class MentionNode: BaseNode {
 		let insets = EdgeInsets(top: inset, leading: inset, bottom: inset, trailing: inset)
 		let radius: CGFloat = 3
 		
+		// Temporary default for now
+		let color: Color = .cyan
+		
+		var text: String?
+		
 		if _type == "@" {
 			if let member = serverCtx.guild?.members?.first(where: { $0.user?.id == id }) {
-				return AnyView(
-					Text("@\(member.nick ?? member.user?.username ?? id)")
-						.foregroundColor(.cyan)
-						.padding(insets)
-						.background(.cyan.opacity(0.2))
-						.cornerRadius(radius)
-				)
+				text = "@\(member.nick ?? member.user?.username ?? id)"
 			} else if let user = gateway.cache.users.first(where: { $0.key == id }) {
-				return AnyView(
-					Text("@\(user.value.username)")
-						.foregroundColor(.cyan)
-						.padding(insets)
-						.background(.cyan.opacity(0.2))
-						.cornerRadius(radius)
-				)
+				text = "@\(user.value.username)"
 			}
 		} else if _type == "#", let channel = serverCtx.guild?.channels?.first(where: { $0.id == id }) {
-			return AnyView(
-				Text("#\(channel.name ?? "unknown_channel")")
-					.foregroundColor(.cyan)
-					.padding(insets)
-					.background(.cyan.opacity(0.2))
-					.cornerRadius(radius)
-			)
+			text = "#\(channel.name ?? "unknown_channel")"
 		} else if _type == "@&" {
 			do {
 				if let role = try serverCtx.guild?.roles.first(where: { try $0.result.get().id == id })?.result.get() {
-					return AnyView(
-						Text("@\(role.name)")
-							.foregroundColor(.cyan)
-							.padding(insets)
-							.background(.cyan.opacity(0.2))
-							.cornerRadius(radius)
-					)
+					text = "@\(role.name)"
 				}
 			} catch {}
 		}
+		
 		return AnyView(
-			Text("<\(_type)\(id)>")
-				.foregroundColor(.cyan)
+			Text(text ?? "<\(_type)\(id)>")
+				.foregroundColor(color)
 				.padding(insets)
-				.background(.cyan.opacity(0.5))
+				.background(color.opacity(0.2))
 				.cornerRadius(radius)
 		)
 	}
