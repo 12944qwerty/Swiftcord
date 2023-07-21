@@ -55,6 +55,15 @@
       }
     },
     {
+      "identity" : "simplemarkdown-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/12944qwerty/SimpleMarkdown-Swift",
+      "state" : {
+        "branch" : "main",
+        "revision" : "6cb8fa1998ae208a00777a1a0b14fe5122c85965"
+      }
+    },
+    {
       "identity" : "sparkle",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sparkle-project/Sparkle",
